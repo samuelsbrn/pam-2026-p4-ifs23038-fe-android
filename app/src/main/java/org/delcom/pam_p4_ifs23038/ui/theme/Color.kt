@@ -5,34 +5,46 @@ import androidx.compose.ui.graphics.Color
 /* =========================
    BRAND COLORS (PLANT THEME - DEFAULT)
    ========================= */
-val PlantGreen = Color(0xFF2E7D32)      // Hijau natural untuk tanaman
-val PlantGreenLight = Color(0xFF4CAF50)  // Hijau lebih terang
-val PlantGreenDark = Color(0xFF1B5E20)   // Hijau lebih gelap
-val PlantAccent = Color(0xFF8BC34A)      // Hijau cerah sebagai aksen
+val PlantGreen = Color(0xFF2E7D32)
+val PlantGreenLight = Color(0xFF4CAF50)
+val PlantGreenDark = Color(0xFF1B5E20)
+val PlantAccent = Color(0xFF8BC34A)
 
-val MotorRed = Color(0xFFD32F2F)      // Merah untuk tema motor
-val MotorRedLight = Color(0xFFEF5350)
+/* =========================
+   BRAND COLORS (MOTOR THEME)
+   ========================= */
+val MotorRed = Color(0xFFD32F2F)      // Merah dominan
+val MotorRedLight = Color(0xFFEF5350) // Merah terang
+val MotorRedDark = Color(0xFFB71C1C)  // Merah gelap
+val MotorAccent = Color(0xFFFF5252)   // Aksen merah cerah
 
 val DelcomYellow = Color(0xFFFFC107)
 val DelcomYellowSoft = Color(0xFFFFE082)
 
 /* =========================
-   LIGHT THEME
+   LIGHT THEME (PLANT)
    ========================= */
 val md_theme_light_primary = PlantGreen
 val md_theme_light_onPrimary = Color.White
-
 val md_theme_light_primaryContainer = Color(0xFFC8E6C9)
 val md_theme_light_onPrimaryContainer = Color(0xFF002107)
+val md_theme_light_tertiary = PlantGreenDark
+val md_theme_light_onTertiary = Color.White
+
+/* =========================
+   LIGHT THEME (MOTOR)
+   ========================= */
+val md_motor_light_primary = MotorRed
+val md_motor_light_onPrimary = Color.White
+val md_motor_light_primaryContainer = Color(0xFFFFDAD6)
+val md_motor_light_onPrimaryContainer = Color(0xFF410002)
+val md_motor_light_tertiary = MotorRedDark
+val md_motor_light_onTertiary = Color.White
 
 val md_theme_light_secondary = DelcomYellow
 val md_theme_light_onSecondary = Color(0xFF2A1F00)
-
 val md_theme_light_secondaryContainer = DelcomYellowSoft
 val md_theme_light_onSecondaryContainer = Color(0xFF2A1F00)
-
-val md_theme_light_tertiary = PlantGreenDark
-val md_theme_light_onTertiary = Color.White
 
 val md_theme_light_error = Color(0xFFBA1A1A)
 val md_theme_light_onError = Color.White
@@ -59,9 +71,11 @@ val md_theme_light_surfaceTint = PlantGreen
    DARK THEME
    ========================= */
 val md_theme_dark_primary = PlantGreenLight
+val md_motor_dark_primary = MotorRedLight
 val md_theme_dark_onPrimary = Color.Black
 
 val md_theme_dark_primaryContainer = Color(0xFF1A4F1D)
+val md_motor_dark_primaryContainer = Color(0xFF93000A)
 val md_theme_dark_onPrimaryContainer = Color(0xFFC8E6C9)
 
 val md_theme_dark_secondary = DelcomYellow
@@ -71,7 +85,9 @@ val md_theme_dark_secondaryContainer = Color(0xFF5A4600)
 val md_theme_dark_onSecondaryContainer = DelcomYellowSoft
 
 val md_theme_dark_tertiary = PlantAccent
+val md_motor_dark_tertiary = MotorAccent
 val md_theme_dark_onTertiary = Color.Black
+val md_motor_dark_onTertiary = Color.Black
 
 val md_theme_dark_error = Color(0xFFFFB4AB)
 val md_theme_dark_onError = Color(0xFF690005)

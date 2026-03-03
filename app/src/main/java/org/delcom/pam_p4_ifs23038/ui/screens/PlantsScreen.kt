@@ -101,7 +101,7 @@ fun PlantsScreen(
     fun onOpen(plantId: String) {
         RouteHelper.to(
             navController = navController,
-            destination = ConstHelper.RouteNames.MotorsDetail.path.replace("{motorId}", plantId)
+            destination = "plants/${plantId}"
         )
     }
 
@@ -113,7 +113,7 @@ fun PlantsScreen(
         // Top App Bar
         TopAppBarComponent(
             navController = navController,
-            title = "Motors", showBackButton = false,
+            title = "Plants", showBackButton = false,
             withSearch = true,
             searchQuery = searchQuery,
             onSearchQueryChange = { query ->
@@ -144,7 +144,7 @@ fun PlantsScreen(
                         RouteHelper.to(
                             navController,
                             ConstHelper.RouteNames
-                                .MotorsAdd
+                                .PlantsAdd
                                 .path
                         )
                     },
@@ -157,7 +157,7 @@ fun PlantsScreen(
                 ) {
                     Icon(
                         imageVector = Icons.Default.Add,
-                        contentDescription = "Tambah Motor"
+                        contentDescription = "Tambah Tumbuhan"
                     )
                 }
             }

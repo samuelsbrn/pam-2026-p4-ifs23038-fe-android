@@ -7,15 +7,7 @@ import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
@@ -23,22 +15,8 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Save
-import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.FloatingActionButton
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.OutlinedTextFieldDefaults
-import androidx.compose.material3.SnackbarHostState
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -56,14 +34,8 @@ import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import okhttp3.MultipartBody
 import org.delcom.pam_p4_ifs23038.R
-import org.delcom.pam_p4_ifs23038.helper.AlertHelper
-import org.delcom.pam_p4_ifs23038.helper.AlertState
-import org.delcom.pam_p4_ifs23038.helper.AlertType
-import org.delcom.pam_p4_ifs23038.helper.ConstHelper
-import org.delcom.pam_p4_ifs23038.helper.RouteHelper
-import org.delcom.pam_p4_ifs23038.helper.SuspendHelper
+import org.delcom.pam_p4_ifs23038.helper.*
 import org.delcom.pam_p4_ifs23038.helper.SuspendHelper.SnackBarType
-import org.delcom.pam_p4_ifs23038.helper.ToolsHelper
 import org.delcom.pam_p4_ifs23038.helper.ToolsHelper.toRequestBodyText
 import org.delcom.pam_p4_ifs23038.helper.ToolsHelper.uriToMultipart
 import org.delcom.pam_p4_ifs23038.network.plants.data.ResponsePlantData
@@ -151,10 +123,10 @@ fun PlantsEditScreen(
                 )
                 RouteHelper.to(
                     navController = navController,
-                    destination = ConstHelper.RouteNames.MotorsDetail.path
-                        .replace("{motorId}", plantId),
-                    popUpTo = ConstHelper.RouteNames.MotorsDetail.path
-                        .replace("{motorId}", plantId),
+                    destination = ConstHelper.RouteNames.PlantsDetail.path
+                        .replace("{plantId}", plantId),
+                    popUpTo = ConstHelper.RouteNames.PlantsDetail.path
+                        .replace("{plantId}", plantId),
                     removeBackStack = true
                 )
                 isLoading = false
@@ -303,7 +275,7 @@ fun PlantsEditUI(
             ),
             label = {
                 Text(
-                    text = "Nama Motor",
+                    text = "Nama Tumbuhan",
                     color = MaterialTheme.colorScheme.onPrimaryContainer
                 )
             },
@@ -349,7 +321,7 @@ fun PlantsEditUI(
             minLines = 3
         )
 
-        // Spesifikasi (Manfaat di Plants)
+        // Manfaat
         OutlinedTextField(
             value = dataManfaat,
             onValueChange = { dataManfaat = it },
@@ -362,7 +334,7 @@ fun PlantsEditUI(
             ),
             label = {
                 Text(
-                    text = "Spesifikasi",
+                    text = "Manfaat",
                     color = MaterialTheme.colorScheme.onPrimaryContainer
                 )
             },
@@ -380,7 +352,7 @@ fun PlantsEditUI(
             minLines = 3
         )
 
-        // Harga/Info Lain (Efek Samping di Plants)
+        // Efek Samping
         OutlinedTextField(
             value = dataEfekSamping,
             onValueChange = { dataEfekSamping = it },
@@ -393,7 +365,7 @@ fun PlantsEditUI(
             ),
             label = {
                 Text(
-                    text = "Harga/Info Lain",
+                    text = "Efek Samping",
                     color = MaterialTheme.colorScheme.onPrimaryContainer
                 )
             },
@@ -445,7 +417,7 @@ fun PlantsEditUI(
                     AlertHelper.show(
                         alertState,
                         AlertType.ERROR,
-                        "Spesifikasi tidak boleh kosong!"
+                        "Informasi manfaat tidak boleh kosong!"
                     )
                     return@FloatingActionButton
                 }
@@ -454,7 +426,7 @@ fun PlantsEditUI(
                     AlertHelper.show(
                         alertState,
                         AlertType.ERROR,
-                        "Informasi harga tidak boleh kosong!"
+                        "Informasi efek samping tidak boleh kosong!"
                     )
                     return@FloatingActionButton
                 }

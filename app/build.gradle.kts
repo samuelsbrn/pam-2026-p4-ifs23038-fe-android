@@ -9,11 +9,7 @@ plugins {
 
 android {
     namespace = "org.delcom.pam_p4_ifs23038"
-    compileSdk {
-        version = release(36) {
-            minorApiLevel = 1
-        }
-    }
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "org.delcom.pam_p4_ifs23038"
@@ -24,7 +20,8 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
-        buildConfigField("String", "BASE_URL_PANTS_API", "\"https://pam-2026-p4-ifs18005-be.delcom.org:8080/\"")
+        // Menggunakan 10.0.2.2 agar emulator bisa mengakses localhost komputer host
+        buildConfigField("String", "BASE_URL_PANTS_API", "\"https://pam-2026-p4-ifs23038-be.samuelsbrn.site:8080/\"")
     }
 
     buildTypes {

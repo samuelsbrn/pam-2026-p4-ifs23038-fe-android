@@ -18,19 +18,16 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import org.delcom.pam_p4_ifs23038.helper.ConstHelper
 import org.delcom.pam_p4_ifs23038.ui.components.CustomSnackbar
-import org.delcom.pam_p4_ifs23038.ui.screens.HomeScreen
-import org.delcom.pam_p4_ifs23038.ui.screens.PlantsAddScreen
-import org.delcom.pam_p4_ifs23038.ui.screens.PlantsDetailScreen
-import org.delcom.pam_p4_ifs23038.ui.screens.PlantsEditScreen
-import org.delcom.pam_p4_ifs23038.ui.screens.PlantsScreen
-import org.delcom.pam_p4_ifs23038.ui.screens.ProfileScreen
+import org.delcom.pam_p4_ifs23038.ui.screens.*
+import org.delcom.pam_p4_ifs23038.ui.viewmodels.MotorViewModel
 import org.delcom.pam_p4_ifs23038.ui.viewmodels.PlantViewModel
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun UIApp(
     navController: NavHostController = rememberNavController(),
-    plantViewModel: PlantViewModel
+    plantViewModel: PlantViewModel,
+    motorViewModel: MotorViewModel
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
 
@@ -58,12 +55,13 @@ fun UIApp(
                 ProfileScreen(navController = navController, plantViewModel = plantViewModel)
             }
 
-            // --- SECTION PLANTS ---
+            // --- SECTION PLANTS (ORIGINAL) ---
             composable(route = ConstHelper.RouteNames.Plants.path) {
                 PlantsScreen(navController = navController, plantViewModel = plantViewModel)
             }
             composable(route = ConstHelper.RouteNames.PlantsAdd.path) {
-                PlantsAddScreen(navController = navController, snackbarHost = snackbarHostState, plantViewModel = plantViewModel)
+                // Sesuai nama fungsi di file layar Tanaman Anda (singular tanpa 's')
+                PlantAddScreen(navController = navController, snackbarHost = snackbarHostState, plantViewModel = plantViewModel)
             }
             composable(
                 route = ConstHelper.RouteNames.PlantsDetail.path,
@@ -80,26 +78,26 @@ fun UIApp(
                 PlantsEditScreen(navController = navController, snackbarHost = snackbarHostState, plantViewModel = plantViewModel, plantId = plantId)
             }
 
-            // --- SECTION MOTORS ---
+            // --- SECTION MOTORS (TOPIC SAYA) ---
             composable(route = ConstHelper.RouteNames.Motors.path) {
-                PlantsScreen(navController = navController, plantViewModel = plantViewModel)
+                MotorsScreen(navController = navController, motorViewModel = motorViewModel)
             }
             composable(route = ConstHelper.RouteNames.MotorsAdd.path) {
-                PlantsAddScreen(navController = navController, snackbarHost = snackbarHostState, plantViewModel = plantViewModel)
+                MotorsAddScreen(navController = navController, snackbarHost = snackbarHostState, motorViewModel = motorViewModel)
             }
             composable(
                 route = ConstHelper.RouteNames.MotorsDetail.path,
                 arguments = listOf(navArgument("motorId") { type = NavType.StringType })
             ) { backStackEntry ->
                 val motorId = backStackEntry.arguments?.getString("motorId") ?: ""
-                PlantsDetailScreen(navController = navController, snackbarHost = snackbarHostState, plantViewModel = plantViewModel, plantId = motorId)
+                MotorsDetailScreen(navController = navController, snackbarHost = snackbarHostState, motorViewModel = motorViewModel, motorId = motorId)
             }
             composable(
                 route = ConstHelper.RouteNames.MotorsEdit.path,
                 arguments = listOf(navArgument("motorId") { type = NavType.StringType })
             ) { backStackEntry ->
                 val motorId = backStackEntry.arguments?.getString("motorId") ?: ""
-                PlantsEditScreen(navController = navController, snackbarHost = snackbarHostState, plantViewModel = plantViewModel, plantId = motorId)
+                MotorsEditScreen(navController = navController, snackbarHost = snackbarHostState, motorViewModel = motorViewModel, motorId = motorId)
             }
         }
     }

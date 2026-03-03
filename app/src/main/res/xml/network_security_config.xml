@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <domain-config cleartextTrafficPermitted="true">
+        <domain includeSubdomains="true">pam-2026-p4-ifs23038-be.samuelsbrn.site</domain>
+    </domain-config>
+</network-security-config>

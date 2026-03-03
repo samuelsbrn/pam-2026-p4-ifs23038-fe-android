@@ -19,12 +19,6 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -38,48 +32,24 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import org.delcom.pam_p4_ifs23038.R
-import org.delcom.pam_p4_ifs23038.helper.RouteHelper
 import org.delcom.pam_p4_ifs23038.helper.ToolsHelper
 import org.delcom.pam_p4_ifs23038.network.plants.data.ResponseProfile
 import org.delcom.pam_p4_ifs23038.ui.components.BottomNavComponent
-import org.delcom.pam_p4_ifs23038.ui.components.LoadingUI
 import org.delcom.pam_p4_ifs23038.ui.components.TopAppBarComponent
 import org.delcom.pam_p4_ifs23038.ui.theme.DelcomTheme
 import org.delcom.pam_p4_ifs23038.ui.viewmodels.PlantViewModel
-import org.delcom.pam_p4_ifs23038.ui.viewmodels.ProfileUIState
 
 @Composable
 fun ProfileScreen(
     navController: NavHostController,
     plantViewModel: PlantViewModel
 ) {
-    // Ambil data dari viewmodel
-    val uiStatePlant by plantViewModel.uiState.collectAsState()
-
-    var isLoading by remember { mutableStateOf(false) }
-    var profile by remember { mutableStateOf<ResponseProfile?>(null) }
-
-    LaunchedEffect(Unit) {
-        isLoading = true
-        plantViewModel.getProfile()
-    }
-
-    LaunchedEffect(uiStatePlant.profile) {
-        if(uiStatePlant.profile !is ProfileUIState.Loading){
-            isLoading = false
-            if(uiStatePlant.profile is ProfileUIState.Success){
-                profile = (uiStatePlant.profile as ProfileUIState.Success).data
-            }else{
-                RouteHelper.back(navController)
-            }
-        }
-    }
-
-    // Tampilkan halaman loading
-    if(isLoading || profile == null){
-        LoadingUI()
-        return
-    }
+    // Data Profil diisi langsung (Hardcoded) sesuai permintaan
+    val myProfile = ResponseProfile(
+        nama = "Samuel Faldhieto Sibarani",
+        username = "ifs23038",
+        tentang = "Saya adalah mahasiswa semester 6, sedang berkuliah di Institut teknologi Del"
+    )
 
     Column(
         modifier = Modifier
@@ -94,7 +64,7 @@ fun ProfileScreen(
                 .weight(1f)
         ) {
             ProfileUI(
-                profile = profile!!
+                profile = myProfile
             )
         }
         // Bottom Nav
@@ -139,7 +109,8 @@ fun ProfileUI(
                 Text(
                     text = profile.nama,
                     fontSize = 22.sp,
-                    fontWeight = FontWeight.Bold
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.onBackground
                 )
 
                 Text(
@@ -165,12 +136,15 @@ fun ProfileUI(
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Bold,
                     textAlign = TextAlign.Center,
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier.fillMaxWidth(),
+                    color = MaterialTheme.colorScheme.primary
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
                     profile.tentang,
-                    fontSize = 15.sp
+                    fontSize = 15.sp,
+                    textAlign = TextAlign.Justify,
+                    color = MaterialTheme.colorScheme.onSurface
                 )
             }
         }
@@ -185,9 +159,9 @@ fun PreviewProfileUI(){
     DelcomTheme {
         ProfileUI(
             profile = ResponseProfile(
-                nama = "Abdullah Ubaid",
-                username = "ifs18005",
-                tentang = ""
+                nama = "Samuel Faldhieto Sibarani",
+                username = "ifs23038",
+                tentang = "Saya adalah mahasiswa semester 6, sedang berkuliah di Institut teknologi Del"
             )
         )
     }
