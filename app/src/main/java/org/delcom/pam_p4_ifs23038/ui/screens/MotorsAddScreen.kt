@@ -43,6 +43,7 @@ import org.delcom.pam_p4_ifs23038.ui.components.TopAppBarComponent
 import org.delcom.pam_p4_ifs23038.ui.theme.DelcomTheme
 import org.delcom.pam_p4_ifs23038.ui.viewmodels.MotorActionUIState
 import org.delcom.pam_p4_ifs23038.ui.viewmodels.MotorViewModel
+import androidx.compose.runtime.saveable.rememberSaveable
 
 @Composable
 fun MotorsAddScreen(
@@ -102,22 +103,22 @@ fun MotorsAddScreen(
 fun MotorsAddUI(tmpMotor: ResponseMotorData?, onSave: (Context, String, String, String, String, Uri) -> Unit) {
     val alertState = remember { mutableStateOf(AlertState()) }
     var dataFile by remember { mutableStateOf<Uri?>(null) }
-    var dataNama by remember { mutableStateOf(tmpMotor?.nama ?: "") }
-    var dataDeskripsi by remember { mutableStateOf(tmpMotor?.deskripsi ?: "") }
-    var dataSpesifikasi by remember { mutableStateOf(tmpMotor?.spesifikasi ?: "") }
-    var dataHarga by remember { mutableStateOf(tmpMotor?.harga ?: "") }
+    var dataNama by rememberSaveable { mutableStateOf(tmpMotor?.nama ?: "") }
+    var dataDeskripsi by rememberSaveable { mutableStateOf(tmpMotor?.deskripsi ?: "") }
+    var dataSpesifikasi by rememberSaveable { mutableStateOf(tmpMotor?.spesifikasi ?: "") }
+    var dataHarga by rememberSaveable { mutableStateOf(tmpMotor?.harga ?: "") }
     val context = LocalContext.current
     val focusManager = LocalFocusManager.current
     val deskripsiFocus = remember { FocusRequester() }
     val spesifikasiFocus = remember { FocusRequester() }
     val hargaFocus = remember { FocusRequester() }
 
-    val imagePicker = rememberLauncherForActivityResult(contract = ActivityResultContracts.PickVisualMedia()) { uri -> dataFile = uri }
+    val imagePicker = rememberLauncherForActivityResult(contract = ActivityResultContracts.GetContent()) { uri -> dataFile = uri }
 
     Column(modifier = Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(16.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
         Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.fillMaxWidth()) {
             Box(modifier = Modifier.size(150.dp).clip(RoundedCornerShape(12.dp)).background(MaterialTheme.colorScheme.primaryContainer).clickable {
-                imagePicker.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+                imagePicker.launch("image/*")
             }, contentAlignment = Alignment.Center) {
                 if (dataFile != null) {
                     AsyncImage(model = dataFile, contentDescription = null, contentScale = ContentScale.Crop, modifier = Modifier.fillMaxSize())

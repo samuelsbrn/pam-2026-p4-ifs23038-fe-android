@@ -51,4 +51,7 @@ object ToolsHelper {
 
         return file
     }
+    fun getMotorImageUrl(motorId: String): String {
+        return "${BuildConfig.BASE_URL_PANTS_API}motors/${motorId}/image"
+    }
 }

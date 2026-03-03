@@ -43,6 +43,7 @@ import org.delcom.pam_p4_ifs23038.ui.theme.DelcomTheme
 import org.delcom.pam_p4_ifs23038.ui.viewmodels.MotorActionUIState
 import org.delcom.pam_p4_ifs23038.ui.viewmodels.MotorUIState
 import org.delcom.pam_p4_ifs23038.ui.viewmodels.MotorViewModel
+import androidx.compose.runtime.saveable.rememberSaveable
 
 @Composable
 fun MotorsEditScreen(
@@ -117,10 +118,10 @@ fun MotorsEditScreen(
 fun MotorsEditUI(motor: ResponseMotorData, onSave: (Context, String, String, String, String, Uri?) -> Unit) {
     val alertState = remember { mutableStateOf(AlertState()) }
     var dataFile by remember { mutableStateOf<Uri?>(null) }
-    var dataNama by remember { mutableStateOf(motor.nama) }
-    var dataDeskripsi by remember { mutableStateOf(motor.deskripsi) }
-    var dataSpesifikasi by remember { mutableStateOf(motor.spesifikasi) }
-    var dataHarga by remember { mutableStateOf(motor.harga) }
+    var dataNama by rememberSaveable { mutableStateOf(motor.nama) }
+    var dataDeskripsi by rememberSaveable { mutableStateOf(motor.deskripsi) }
+    var dataSpesifikasi by rememberSaveable { mutableStateOf(motor.spesifikasi) }
+    var dataHarga by rememberSaveable { mutableStateOf(motor.harga) }
     val context = LocalContext.current
     val focusManager = LocalFocusManager.current
     val imagePicker = rememberLauncherForActivityResult(contract = ActivityResultContracts.PickVisualMedia()) { uri -> dataFile = uri }
@@ -132,7 +133,7 @@ fun MotorsEditUI(motor: ResponseMotorData, onSave: (Context, String, String, Str
             if (dataFile != null) {
                 AsyncImage(model = dataFile, contentDescription = null, contentScale = ContentScale.Crop, modifier = Modifier.fillMaxSize())
             } else {
-                AsyncImage(model = ToolsHelper.getPlantImageUrl(motor.id), contentDescription = null, contentScale = ContentScale.Crop, modifier = Modifier.fillMaxSize())
+                AsyncImage(model = ToolsHelper.getMotorImageUrl(motor.id), contentDescription = null, contentScale = ContentScale.Crop, modifier = Modifier.fillMaxSize())
             }
         }
         OutlinedTextField(value = dataNama, onValueChange = { dataNama = it }, label = { Text("Nama Motor") }, modifier = Modifier.fillMaxWidth())

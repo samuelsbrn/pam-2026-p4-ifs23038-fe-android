@@ -128,7 +128,7 @@ fun MotorItemUI(motor: ResponseMotorData, onOpen: (String) -> Unit) {
     Card(modifier = Modifier.fillMaxWidth().padding(8.dp).clickable { onOpen(motor.id) }, elevation = CardDefaults.cardElevation(4.dp)) {
         Row(modifier = Modifier.fillMaxWidth().padding(12.dp)) {
             AsyncImage(
-                model = ToolsHelper.getPlantImageUrl(motor.id),
+                model = ToolsHelper.getMotorImageUrl(motor.id),
                 contentDescription = motor.nama,
                 placeholder = painterResource(R.drawable.img_placeholder),
                 error = painterResource(R.drawable.img_placeholder),

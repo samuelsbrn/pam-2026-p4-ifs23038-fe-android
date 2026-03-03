@@ -125,7 +125,7 @@ fun MotorsDetailScreen(
 fun MotorsDetailUI(motor: ResponseMotorData) {
     Column(modifier = Modifier.fillMaxSize().padding(16.dp).verticalScroll(rememberScrollState())) {
         AsyncImage(
-            model = ToolsHelper.getPlantImageUrl(motor.id),
+            model = ToolsHelper.getMotorImageUrl(motor.id),
             contentDescription = motor.nama,
             placeholder = painterResource(R.drawable.img_placeholder),
             error = painterResource(R.drawable.img_placeholder),

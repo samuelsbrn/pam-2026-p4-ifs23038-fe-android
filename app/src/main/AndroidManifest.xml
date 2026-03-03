@@ -22,8 +22,6 @@
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:alwaysRetainTaskState="true"
-            android:launchMode="singleTask"
             android:theme="@style/Theme.DelcomPlants"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
