@@ -34,8 +34,8 @@ sealed interface MotorActionUIState {
 
 data class UIStateMotor(
     val motors: MotorsUIState = MotorsUIState.Loading,
-    var motor: MotorUIState = MotorUIState.Loading,
-    var motorAction: MotorActionUIState = MotorActionUIState.Loading
+    val motor: MotorUIState = MotorUIState.Loading,
+    val motorAction: MotorActionUIState = MotorActionUIState.Loading
 )
 
 @HiltViewModel
@@ -46,11 +46,15 @@ class MotorViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(UIStateMotor())
     val uiState = _uiState.asStateFlow()
 
+    fun clearMotorAction() {
+        _uiState.update { it.copy(motorAction = MotorActionUIState.Loading) }
+    }
+
     fun getAllMotors(search: String? = null) {
         viewModelScope.launch {
             _uiState.update { it.copy(motors = MotorsUIState.Loading) }
             val result = runCatching { repository.getAllMotors(search) }.getOrNull()
-            _uiState.update { 
+            _uiState.update {
                 if (result?.status == "success") it.copy(motors = MotorsUIState.Success(result.data!!.motors))
                 else it.copy(motors = MotorsUIState.Error(result?.message ?: "Gagal mengambil data"))
             }

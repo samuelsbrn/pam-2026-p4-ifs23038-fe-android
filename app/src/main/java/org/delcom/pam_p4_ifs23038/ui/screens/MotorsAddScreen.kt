@@ -3,7 +3,6 @@ package org.delcom.pam_p4_ifs23038.ui.screens
 import android.content.Context
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -17,6 +16,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Save
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -25,13 +25,11 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
-import org.delcom.pam_p4_ifs23038.R
 import org.delcom.pam_p4_ifs23038.helper.*
 import org.delcom.pam_p4_ifs23038.helper.SuspendHelper.SnackBarType
 import org.delcom.pam_p4_ifs23038.helper.ToolsHelper.toRequestBodyText
@@ -43,13 +41,12 @@ import org.delcom.pam_p4_ifs23038.ui.components.TopAppBarComponent
 import org.delcom.pam_p4_ifs23038.ui.theme.DelcomTheme
 import org.delcom.pam_p4_ifs23038.ui.viewmodels.MotorActionUIState
 import org.delcom.pam_p4_ifs23038.ui.viewmodels.MotorViewModel
-import androidx.compose.runtime.saveable.rememberSaveable
 
 @Composable
 fun MotorsAddScreen(
     navController: NavHostController,
     snackbarHost: SnackbarHostState,
-    motorViewModel: MotorViewModel // FIXED: Diubah dari plantViewModel
+    motorViewModel: MotorViewModel
 ) {
     DelcomTheme(isMotorTheme = true) {
         val uiState by motorViewModel.uiState.collectAsState()
@@ -57,7 +54,7 @@ fun MotorsAddScreen(
         var tmpMotor by remember { mutableStateOf<ResponseMotorData?>(null) }
 
         LaunchedEffect(Unit) {
-            motorViewModel.uiState.value.motorAction = MotorActionUIState.Loading
+            motorViewModel.clearMotorAction()
         }
 
         fun onSave(context: Context, nama: String, deskripsi: String, spesifikasi: String, harga: String, file: Uri) {
@@ -103,10 +100,12 @@ fun MotorsAddScreen(
 fun MotorsAddUI(tmpMotor: ResponseMotorData?, onSave: (Context, String, String, String, String, Uri) -> Unit) {
     val alertState = remember { mutableStateOf(AlertState()) }
     var dataFile by remember { mutableStateOf<Uri?>(null) }
+
     var dataNama by rememberSaveable { mutableStateOf(tmpMotor?.nama ?: "") }
     var dataDeskripsi by rememberSaveable { mutableStateOf(tmpMotor?.deskripsi ?: "") }
     var dataSpesifikasi by rememberSaveable { mutableStateOf(tmpMotor?.spesifikasi ?: "") }
     var dataHarga by rememberSaveable { mutableStateOf(tmpMotor?.harga ?: "") }
+
     val context = LocalContext.current
     val focusManager = LocalFocusManager.current
     val deskripsiFocus = remember { FocusRequester() }
@@ -131,7 +130,7 @@ fun MotorsAddUI(tmpMotor: ResponseMotorData?, onSave: (Context, String, String, 
         OutlinedTextField(value = dataNama, onValueChange = { dataNama = it }, label = { Text("Nama Motor") }, modifier = Modifier.fillMaxWidth(), keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next), keyboardActions = KeyboardActions(onNext = { deskripsiFocus.requestFocus() }))
         OutlinedTextField(value = dataDeskripsi, onValueChange = { dataDeskripsi = it }, label = { Text("Deskripsi") }, modifier = Modifier.fillMaxWidth().height(100.dp).focusRequester(deskripsiFocus), keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next), keyboardActions = KeyboardActions(onNext = { spesifikasiFocus.requestFocus() }))
         OutlinedTextField(value = dataSpesifikasi, onValueChange = { dataSpesifikasi = it }, label = { Text("Spesifikasi") }, modifier = Modifier.fillMaxWidth().height(100.dp).focusRequester(spesifikasiFocus), keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next), keyboardActions = KeyboardActions(onNext = { hargaFocus.requestFocus() }))
-        OutlinedTextField(value = dataHarga, onValueChange = { dataHarga = it }, label = { Text("Harga/Info Lain") }, modifier = Modifier.fillMaxWidth().height(100.dp).focusRequester(hargaFocus), keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done), keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() }))
+        OutlinedTextField(value = dataHarga, onValueChange = { dataHarga = it }, label = { Text("Harga/Info Lain") }, modifier = Modifier.fillMaxWidth().height(100.dp).focusRequester(hargaFocus), keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number, imeAction = ImeAction.Done), keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() }))
         Spacer(modifier = Modifier.height(64.dp))
     }
 
